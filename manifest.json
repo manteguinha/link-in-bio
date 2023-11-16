@@ -1,0 +1,19 @@
+{
+	"name": "Marcos Vinicius | MVMS",
+	"short_name": "Marcos Vinicius | MVMS",
+	"description": "App para links em bio",
+	"start_url": "index.html",
+	"theme_color": "#a9a9b3",
+	"background_color": "#36393F",
+	"orientation": "any",
+	"display": "standalone",
+	"icons": [
+		{
+			"src": "img/favicon.png",
+			"sizes": "16x16",
+			"type": "image/png"
+		}
+	],
+	"lang": "pt-BR",
+	"scope": "/"
+}

@@ -1,0 +1,35 @@
+# Ignorar node_modules
+node_modules
+# Ignorar arquivo .git
+.git
+# Ignorar .vscode
+.vscode
+# Ignorar Session data
+*.data.json
+# Ignorar package-lok
+package-lock.json
+# Ignorar node-persist
+.node-persist
+# Ignorar .env
+*.env
+# Ignorar arquivo de teste
+test.js
+# Ignorar atalhos
+desktop.ini
+*.ini
+*.DS_Store
+.DS_Store
+# Ignorar logs
+database/logs/*.log
+*.log
+logs/session/*
+# Ignorar backup
+backup/*.zip
+# Ignorar DB e etc
+database/db/*.db
+database/json/*json
+
+# end managed by open-wa. see: https://github.com/open-wa/wa-automate-nodejs/issues/1632
+# managed
+**.node-persist**
+# end managed
