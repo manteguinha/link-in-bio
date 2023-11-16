@@ -426,3 +426,10 @@
         }
     }
 }
+
+/* se for um desktop o botao de compartilhar nao aparece */
+@media (min-width: 768px) {
+    #share-button button {
+        display: none;
+    }
+}

@@ -41,12 +41,12 @@ function share() {
         if (navigator.share) {
             navigator.share({
                 title: 'Marcos Vinicius | MVMS',
-                url: 'https://noowz-devlinks.vercel.app',
+                url: 'https://bio.mvms.dev',
             })
 
             console.info('You have shared the link successfully!')
         } else {
-            alert('Your browser does not support the Web Share API!')
+            alert('Poxa, parece que seu navegador não suporta a API de compartilhamento da Web! :(')
         }
     } catch (error) {
         console.error(`An error occured while using the Web share API!\nError: ${error}`)
