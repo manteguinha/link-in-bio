@@ -26,15 +26,49 @@ window.matchMedia('(prefers-color-scheme: light)').addListener(event => {
     }
 })
 
-function switchTheme() {
-    html.classList.toggle('lightTheme')
+// Função para obter o tema atual
+function getTheme() {
+    return localStorage.getItem('theme')
+}
 
-    if (html.classList.contains('lightTheme')) {
+// Função para definir o tema atual
+function setTheme(theme) {
+    localStorage.setItem('theme', theme)
+}
+
+// Função para alternar entre temas
+function switchTheme() {
+    const currentTheme = getTheme()
+
+    if (currentTheme === 'dark') {
+        html.classList.remove('darkTheme')
+        html.classList.add('lightTheme')
+        setTheme('light')
         img.setAttribute('src', 'https://avatars.githubusercontent.com/u/63943591?v=4')
     } else {
+        html.classList.remove('lightTheme')
+        html.classList.add('darkTheme')
+        setTheme('dark')
         img.setAttribute('src', 'https://avatars.githubusercontent.com/u/63943591?v=4')
     }
 }
+
+window.addEventListener('DOMContentLoaded', () => {
+    const savedTheme = getTheme()
+
+    if (savedTheme === null) {
+        // Caso não haja tema salvo, define o tema escuro como padrão
+        html.classList.add('darkTheme')
+        img.setAttribute('src', 'https://avatars.githubusercontent.com/u/63943591?v=4')
+        setTheme('dark') // Define o tema escuro no localStorage
+    } else if (savedTheme === 'dark') {
+        html.classList.add('darkTheme')
+        img.setAttribute('src', 'https://avatars.githubusercontent.com/u/63943591?v=4')
+    } else {
+        html.classList.add('lightTheme')
+        img.setAttribute('src', 'https://avatars.githubusercontent.com/u/63943591?v=4')
+    }
+})
 
 function share() {
     try {
@@ -59,3 +93,65 @@ function typeWriter(linguagens_inicio, i) {
         setTimeout(() => typeWriter(linguagens_inicio, i + 1), 50)
     }
 }
+
+let currentLink = '' // Variável para armazenar o link atual obtido da API
+const defaultLink = 'https://open.spotify.com/embed/track/08mG3Y1vljYA6bvDt4Wqkj?utm_source=generator&theme=0'
+
+async function fetchData() {
+    try {
+        const response = await fetch('https://link-in-bio-api.manteguinha.repl.co/musguinha')
+        if (response.ok) {
+            console.log('Dados obtidos com sucesso!')
+            const responseData = await response.json()
+
+            if (responseData.tocandoAgora === 'true') {
+                // Verifica se o link atual é diferente do link obtido
+                if (responseData.linkSpotify !== currentLink) {
+                    currentLink = responseData.linkSpotify // Atualiza o link atual
+                    updateSpotifyLink(responseData)
+                } else {
+                    console.log('Link da API não foi alterado. Não é necessário atualizar.')
+                }
+            } else {
+                console.log('Nenhuma música está sendo reproduzida.')
+                if (currentLink !== defaultLink) {
+                    currentLink = defaultLink
+                    updateSpotifyLinkDefault()
+                }
+            }
+        } else {
+            console.error('Erro ao obter os dados:', response.status)
+        }
+    } catch (error) {
+        console.error('Erro ao realizar a requisição:', error.message)
+    }
+}
+
+function updateSpotifyLink(responseData) {
+    const spotifyLink = responseData.linkSpotify
+    const linkEmbed = transformSpotifyLink(spotifyLink)
+    const iframe = document.getElementById('spotifyIframe')
+    if (iframe && linkEmbed) {
+        iframe.src = linkEmbed
+    }
+}
+
+function updateSpotifyLinkDefault() {
+    const iframe = document.getElementById('spotifyIframe')
+    if (iframe) {
+        iframe.src = defaultLink
+    }
+}
+
+function transformSpotifyLink(linkSpotify) {
+    const hasTrack = linkSpotify.includes('/track/')
+    if (hasTrack) {
+        const parts = linkSpotify.split('/track/')
+        const trackId = parts[1]
+        return `https://open.spotify.com/embed/track/${trackId}?utm_source=generator&theme=0`
+    }
+    return null
+}
+
+fetchData()
+setInterval(fetchData, 60000)
