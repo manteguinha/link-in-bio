@@ -165,9 +165,6 @@ function transformSpotifyLink(linkSpotify) {
     return null
 }
 
-// fetchData()
-// setInterval(fetchData, 60000)
-
 function updateTime() {
     const months = [
         'janeiro',
@@ -246,15 +243,11 @@ function fetchWeather() {
         })
 }
 
-// Restante do código permanece igual
+updateTime()
+setInterval(updateTime, 1000)
 
-function updateTimeAndWeather() {
-    updateTime() // Chama a função para exibir a hora atualizada
-    fetchWeather() // Busca e exibe o clima
-}
+fetchWeather()
+setInterval(fetchWeather, 3600000)
 
-// Atualiza o relógio e o clima a cada segundo
-setInterval(updateTimeAndWeather, 1000)
-
-// Chama updateTimeAndWeather uma vez para mostrar a hora e o clima imediatamente ao carregar a página
-updateTimeAndWeather()
+fetchData()
+setInterval(fetchData, 60000)
