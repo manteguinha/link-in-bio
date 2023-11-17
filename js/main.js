@@ -246,8 +246,8 @@ function fetchWeather() {
 updateTime()
 setInterval(updateTime, 1000)
 
-fetchWeather()
-setInterval(fetchWeather, 3600000)
-
 fetchData()
-setInterval(fetchData, 60000)
+setInterval(fetchData, 10000)
+
+fetchWeather()
+setInterval(fetchWeather, 10000)
