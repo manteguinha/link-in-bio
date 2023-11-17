@@ -108,7 +108,7 @@ async function fetchData() {
                 // Verifica se o link atual é diferente do link obtido
                 if (responseData.linkSpotify !== currentLink) {
                     currentLink = responseData.linkSpotify // Atualiza o link atual
-                    updateSpotifyLink(responseData)
+                    updateSpotifyCard(responseData)
                 } else {
                     console.log('Link da API não foi alterado. Não é necessário atualizar.')
                 }
@@ -116,7 +116,7 @@ async function fetchData() {
                 console.log('Nenhuma música está sendo reproduzida.')
                 if (currentLink !== defaultLink) {
                     currentLink = defaultLink
-                    updateSpotifyLinkDefault()
+                    updateSpotifyCardDefault()
                 }
             }
         } else {
@@ -127,20 +127,32 @@ async function fetchData() {
     }
 }
 
-function updateSpotifyLink(responseData) {
+function updateSpotifyCard(responseData) {
     const spotifyLink = responseData.linkSpotify
-    const linkEmbed = transformSpotifyLink(spotifyLink)
-    const iframe = document.getElementById('spotifyIframe')
-    if (iframe && linkEmbed) {
-        iframe.src = linkEmbed
-    }
+    const nomeMusica = responseData.nome
+    const nomeArtista = responseData.artista
+    const imagemAlbum = responseData.imagem
+
+    const localNomeMusica = document.getElementById('nomeMusica')
+    const localNomeArtista = document.getElementById('nomeBanda')
+    const localImagemAlbum = document.getElementById('imagemAlbum')
+
+    // atualiza os campos do html
+    localNomeMusica.innerHTML = nomeMusica
+    localNomeArtista.innerHTML = nomeArtista
+    localImagemAlbum.src = imagemAlbum
 }
 
-function updateSpotifyLinkDefault() {
-    const iframe = document.getElementById('spotifyIframe')
-    if (iframe) {
-        iframe.src = defaultLink
-    }
+function updateSpotifyCardDefault() {
+    const localNomeMusica = document.getElementById('nomeMusica')
+    const localNomeArtista = document.getElementById('nomeBanda')
+    const localImagemAlbum = document.getElementById('imagemAlbum')
+    const localOuvinhoSpotify = document.getElementById('ouvindoSpotify')
+
+    localNomeMusica.innerHTML = 'Back in Black'
+    localNomeArtista.innerHTML = 'AC/DC'
+    localOuvinhoSpotify.innerHTML = 'Spotify'
+    localImagemAlbum.src = 'https://lastfm.freetls.fastly.net/i/u/174s/678ee60bb2f93f3e7a6c23e1853210da.jpg'
 }
 
 function transformSpotifyLink(linkSpotify) {

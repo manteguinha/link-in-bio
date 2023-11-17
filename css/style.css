@@ -433,3 +433,104 @@
         display: none;
     }
 }
+
+/* CSS CARD SPOTIFY */
+.card {
+    display: flex;
+    width: 100%;
+    height: 100px;
+    padding: 0px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+    background-color: #282828;
+}
+
+.card-info {
+    display: flex;
+    width: 100%;
+    padding: 12px;
+}
+
+.card-image {
+    flex: 1;
+    display: flex;
+    /* Novo */
+    align-items: center;
+    /* Novo */
+    overflow: hidden;
+}
+
+.card-image img {
+    max-width: 100%;
+    /* Modificado */
+    max-height: 100%;
+    /* Modificado */
+    height: auto;
+    /* Modificado */
+    border-radius: 10px;
+    transition: transform 0.3s ease;
+}
+
+.card-content {
+    flex: 2;
+    padding-left: 20px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.nome__musica {
+    margin: 0;
+    color: #ffffff;
+    font-size: 16px;
+    line-height: normal;
+    text-align: start;
+    letter-spacing: normal;
+    font-family: 'CircularSpTitle', 'CircularSpTitle-Tall', 'CircularSp-Arab', 'CircularSp-Hebr', 'CircularSp-Cyrl',
+        'CircularSp-Grek', 'CircularSp-Deva', 'Helvetica Neue', helvetica, arial, 'Hiragino Kaku Gothic Pro', Meiryo,
+        'MS Gothic';
+}
+
+.nome__banda {
+    margin: 0;
+    color: #ffffff;
+    font-size: 12px;
+    line-height: normal;
+    text-align: start;
+    letter-spacing: normal;
+    opacity: 0.5;
+    font-family: 'CircularSp', 'CircularSp-Arab', 'CircularSp-Hebr', 'CircularSp-Cyrl', 'CircularSp-Grek',
+        'CircularSp-Deva', 'Helvetica Neue', helvetica, arial, 'Hiragino Kaku Gothic Pro', Meiryo, 'MS Gothic';
+}
+
+.ouvindo__spotify {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 0 0rem 0;
+    color: #ffffff;
+    font-size: 10px;
+    line-height: normal;
+    text-align: start;
+    letter-spacing: normal;
+    opacity: 0.5;
+    font-family: 'CircularSp', 'CircularSp-Arab', 'CircularSp-Hebr', 'CircularSp-Cyrl', 'CircularSp-Grek',
+        'CircularSp-Deva', 'Helvetica Neue', helvetica, arial, 'Hiragino Kaku Gothic Pro', Meiryo, 'MS Gothic';
+}
+
+.ouvindo__spotify p {
+    margin-left: 3px;
+    margin-top: 1px;
+}
+
+.card-logo {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.icone__spotify {
+    font-size: 1.3rem;
+    line-height: normal;
+    text-align: start;
+    letter-spacing: normal;
+    color: #1ed760;
+}
