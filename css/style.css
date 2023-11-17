@@ -22,6 +22,7 @@
         --link-button-background-color: #282828;
         --link-button-background-color-hover: rgba(0, 0, 0, 0.6);
         --social-media-icon-color-hover: rgba(255, 255, 255, 0.2);
+        --snooze-icon: url(../img/snooze_darkTheme.svg);
     }
 
     .lightTheme {
@@ -39,6 +40,7 @@
         --link-button-background-color: #36393f;
         --link-button-background-color-hover: rgba(0, 0, 0, 0.6);
         --social-media-icon-color-hover: rgba(0, 0, 0, 0.2);
+        --snooze-icon: url(../img/snooze_lightTheme.svg);
     }
 
     body {
@@ -55,6 +57,13 @@
         max-width: 588px;
         margin: 56px auto 0px;
         padding: 0 24px;
+    }
+
+    #snooze-icon {
+        display: inline-block;
+        width: 16px; /* Ajuste o tamanho conforme necessário */
+        height: 16px;
+        background-image: var(--snooze-icon);
     }
 
     #share-button button {
@@ -270,6 +279,13 @@
         max-width: 588px;
         margin: 56px auto 0px;
         padding: 0 24px;
+    }
+
+    #snooze-icon {
+        display: inline-block;
+        width: 16px; /* Ajuste o tamanho conforme necessário */
+        height: 16px;
+        background-image: var(--snooze-icon);
     }
 
     #share-button button {
@@ -533,4 +549,14 @@
     text-align: start;
     letter-spacing: normal;
     color: #1ed760;
+}
+
+.clock-container {
+    display: flex;
+    align-items: center; /* Alinha verticalmente */
+}
+
+/* quero um espaco entre o icone e o relogio */
+.clock-container p {
+    margin-left: 5px;
 }

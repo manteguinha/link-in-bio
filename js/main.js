@@ -165,5 +165,96 @@ function transformSpotifyLink(linkSpotify) {
     return null
 }
 
-fetchData()
-setInterval(fetchData, 60000)
+// fetchData()
+// setInterval(fetchData, 60000)
+
+function updateTime() {
+    const months = [
+        'janeiro',
+        'fevereiro',
+        'março',
+        'abril',
+        'maio',
+        'junho',
+        'julho',
+        'agosto',
+        'setembro',
+        'outubro',
+        'novembro',
+        'dezembro',
+    ]
+
+    const options = { timeZone: 'America/Sao_Paulo' } // Definindo o fuso horário para Brasília
+    const now = new Date().toLocaleString('pt-BR', options)
+    const [datePart, timePart] = now.split(', ') // Dividindo a data e a hora
+
+    const [day, monthIndex, year] = datePart.split('/')
+    const month = months[parseInt(monthIndex) - 1]
+
+    const [time, period] = timePart.split(' ')
+    const [hours, minutes, seconds] = time.split(':')
+
+    const dateString = `${day} de ${month} de ${year}`
+    const timeString = `${hours}:${minutes}:${seconds}`
+
+    const clockElement = document.getElementById('clock')
+    let icone = '<i class="fa-regular fa-clock"></i>'
+    if (parseInt(hours) >= 0 && parseInt(hours) < 6) {
+        icone = '<div id="snooze-icon"></div>'
+    }
+
+    clockElement.style.fontSize = '14px'
+    clockElement.style.marginBottom = '5px'
+
+    clockElement.innerHTML = icone + ' ' + dateString + ' • ' + timeString
+}
+
+function fetchWeather() {
+    fetch('https://wttr.in/Goi%C3%A1s?format=%25c%0A%25t%0A%25C%0A%25l')
+        .then(response => response.text())
+        .then(data => {
+            const weatherElement = document.getElementById('weather')
+            const lines = data.trim().split('\n') // Separa os dados por quebras de linha e remove espaços em branco
+
+            const icon = lines[0] // Ícone da condição
+            const temperature = lines[1] // Temperatura
+            const condition = lines[2] // Condição
+            const location = lines[3] // Local
+
+            const emoji = temperature.includes('°C')
+                ? parseInt(temperature, 10) > 35
+                    ? '🔥 '
+                    : parseInt(temperature, 10) < 20
+                    ? '❄️ '
+                    : ''
+                : ''
+            const modifiedTemperature = temperature.replace('+', emoji)
+
+            weatherElement.style.fontSize = '14px'
+            weatherElement.style.marginBottom = '5px'
+
+            // Manipula o HTML para colocar a temperatura e a cidade em negrito
+            const styledCondition = `<span style="font-size: 12px; font-family: 'Courier New', monospace; font-weight: 500;">(${condition})</span>`
+
+            // Manipula o HTML para colocar a temperatura e a cidade em negrito, e a condição com uma fonte menor
+            const formattedHTML = `${icon} Atualmente está <strong>${modifiedTemperature}</strong> ${styledCondition} em <strong>${location}</strong>.`
+
+            weatherElement.innerHTML = formattedHTML
+        })
+        .catch(error => {
+            console.error('Erro ao buscar dados do clima:', error)
+        })
+}
+
+// Restante do código permanece igual
+
+function updateTimeAndWeather() {
+    updateTime() // Chama a função para exibir a hora atualizada
+    fetchWeather() // Busca e exibe o clima
+}
+
+// Atualiza o relógio e o clima a cada segundo
+setInterval(updateTimeAndWeather, 1000)
+
+// Chama updateTimeAndWeather uma vez para mostrar a hora e o clima imediatamente ao carregar a página
+updateTimeAndWeather()
