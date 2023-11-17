@@ -106,8 +106,8 @@ async function fetchData() {
 
             if (responseData.tocandoAgora === 'true') {
                 // Verifica se o link atual é diferente do link obtido
-                if (responseData.linkSpotify !== currentLink) {
-                    currentLink = responseData.linkSpotify // Atualiza o link atual
+                if (responseData.link !== currentLink) {
+                    currentLink = responseData.link // Atualiza o link atual
                     updateSpotifyCard(responseData)
                 } else {
                     console.log('Link da API não foi alterado. Não é necessário atualizar.')
