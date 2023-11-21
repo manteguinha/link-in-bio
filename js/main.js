@@ -183,20 +183,15 @@ const months = [
 const clockElement = document.getElementById('clock')
 
 function updateTime() {
-    const options = { timeZone: 'America/Sao_Paulo' } // Definindo o fuso horário para Brasília
-    const now = new Date()
-    const day = now.getDate()
-    const month = months[now.getMonth()]
-    const year = now.getFullYear()
-    const hours = now.getHours()
-    const minutes = now.getMinutes()
-    const seconds = now.getSeconds()
+    const now = new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' })
+    const [day, month, year] = now.split(' ')[0].split('/')
+    const [hours, minutes, seconds] = now.split(' ')[1].split(':')
 
-    const dateString = `${day} de ${month} de ${year}`
+    const dateString = `${day} de ${months[parseInt(month) - 1]} de ${year.replace(',', '')}`
     const timeString = `${hours}:${minutes}:${seconds}`
 
     let icone = '<i class="fa-regular fa-clock"></i>'
-    if (hours >= 0 && hours < 6) {
+    if (parseInt(hours) >= 0 && parseInt(hours) < 6) {
         icone = '<div id="snooze-icon"></div>'
     }
 
