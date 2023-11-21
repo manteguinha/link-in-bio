@@ -165,45 +165,43 @@ function transformSpotifyLink(linkSpotify) {
     return null
 }
 
+const months = [
+    'janeiro',
+    'fevereiro',
+    'março',
+    'abril',
+    'maio',
+    'junho',
+    'julho',
+    'agosto',
+    'setembro',
+    'outubro',
+    'novembro',
+    'dezembro',
+]
+
+const clockElement = document.getElementById('clock')
+
 function updateTime() {
-    const months = [
-        'janeiro',
-        'fevereiro',
-        'março',
-        'abril',
-        'maio',
-        'junho',
-        'julho',
-        'agosto',
-        'setembro',
-        'outubro',
-        'novembro',
-        'dezembro',
-    ]
-
     const options = { timeZone: 'America/Sao_Paulo' } // Definindo o fuso horário para Brasília
-    const now = new Date().toLocaleString('pt-BR', options)
-    const [datePart, timePart] = now.split(', ') // Dividindo a data e a hora
-
-    const [day, monthIndex, year] = datePart.split('/')
-    const month = months[parseInt(monthIndex) - 1]
-
-    const [time, period] = timePart.split(' ')
-    const [hours, minutes, seconds] = time.split(':')
+    const now = new Date()
+    const day = now.getDate()
+    const month = months[now.getMonth()]
+    const year = now.getFullYear()
+    const hours = now.getHours()
+    const minutes = now.getMinutes()
+    const seconds = now.getSeconds()
 
     const dateString = `${day} de ${month} de ${year}`
     const timeString = `${hours}:${minutes}:${seconds}`
 
-    const clockElement = document.getElementById('clock')
     let icone = '<i class="fa-regular fa-clock"></i>'
-    if (parseInt(hours) >= 0 && parseInt(hours) < 6) {
+    if (hours >= 0 && hours < 6) {
         icone = '<div id="snooze-icon"></div>'
     }
 
-    clockElement.style.fontSize = '14px'
-    clockElement.style.marginBottom = '5px'
-
-    clockElement.innerHTML = icone + ' ' + dateString + ' • ' + timeString
+    clockElement.style.cssText = 'font-size: 14px; margin-bottom: 5px;'
+    clockElement.innerHTML = `${icone} ${dateString} • ${timeString}`
 }
 
 function fetchWeather() {

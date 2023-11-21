@@ -477,6 +477,7 @@
 }
 
 .card-image img {
+    flex: 0;
     max-width: 100%;
     /* Modificado */
     max-height: 100%;
