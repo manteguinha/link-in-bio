@@ -101,7 +101,6 @@ async function fetchData() {
     try {
         const response = await fetch('https://link-in-bio-api.manteguinha.repl.co/musguinha')
         if (response.ok) {
-            console.log('Dados obtidos com sucesso!')
             const responseData = await response.json()
 
             if (responseData.tocandoAgora === 'true') {
@@ -109,11 +108,8 @@ async function fetchData() {
                 if (responseData.link !== currentLink) {
                     currentLink = responseData.link // Atualiza o link atual
                     updateSpotifyCard(responseData)
-                } else {
-                    console.log('Link da API não foi alterado. Não é necessário atualizar.')
                 }
             } else {
-                console.log('Nenhuma música está sendo reproduzida.')
                 if (currentLink !== defaultLink) {
                     currentLink = defaultLink
                     updateSpotifyCardDefault()
@@ -189,16 +185,42 @@ function updateTime() {
     const [day, month, year] = now.split(' ')[0].split('/')
     const [hours, minutes, seconds] = now.split(' ')[1].split(':')
 
+    const eventos = {
+        natal: {
+            data: '25/12',
+            mensagem: 'Feliz Natal!',
+            icone: '🎄',
+        },
+        anoNovo: {
+            data: '01/01',
+            mensagem: 'Feliz Ano Novo!',
+            icone: '<i class="fas fa-champagne-glasses"></i>',
+        },
+    }
+
     const dateString = `${day} de ${months[parseInt(month) - 1]} de ${year.replace(',', '')}`
     const timeString = `${hours}:${minutes}:${seconds}`
 
     let icone = '<i class="fa-regular fa-clock"></i>'
+    let eventMessage = ''
+    let iconEvent = ''
+
+    // Verifica se a data atual corresponde a algum evento e define a mensagem e o ícone do evento
+    Object.keys(eventos).forEach(evento => {
+        if (eventos[evento].data === `${day}/${month}`) {
+            eventMessage = eventos[evento].mensagem
+            iconEvent = eventos[evento].icone
+        }
+    })
+
     if (parseInt(hours) >= 0 && parseInt(hours) < 6) {
         icone = '<div id="snooze-icon"></div>'
     }
 
     clockElement.style.cssText = 'font-size: 14px; margin-bottom: 5px;'
-    clockElement.innerHTML = `${icone} ${dateString} • ${timeString}`
+    clockElement.innerHTML = `${icone} ${dateString} • ${timeString} ${
+        eventMessage ? `— <span><strong>${eventMessage}</strong> ${iconEvent}</span>` : ''
+    }`
 }
 
 function fetchWeather() {
@@ -208,10 +230,34 @@ function fetchWeather() {
             const weatherElement = document.getElementById('weather')
             const lines = data.trim().split('\n') // Separa os dados por quebras de linha e remove espaços em branco
 
-            const icon = lines[0] // Ícone da condição
+            const weatherIcons = {
+                '☀️': 'fas fa-sun', // Ensolarado
+                '🌤️': 'fas fa-cloud-sun', // Parcialmente nublado
+                '⛅': 'fas fa-cloud', // Nublado
+                '🌥️': 'fas fa-cloud-sun', // Parcialmente nublado
+                '🌦️': 'fas fa-cloud-sun-rain', // Possibilidade de chuva
+                '🌧️': 'fas fa-cloud-showers-heavy', // Chuvoso
+                '⛈️': 'fas fa-poo-storm', // Tempestade
+                '🌩️': 'fas fa-bolt', // Trovão
+                '🌨️': 'fas fa-snowflake', // Nevando
+                '❄️': 'fas fa-snowflake', // Nevando
+                '🌫️': 'fas fa-smog', // Nevoeiro
+                '🌬️': 'fas fa-wind', // Ventoso
+                '☁️': 'fas fa-cloud', // Nuvens
+                '🌫': 'fas fa-smog', // Nevoeiro
+                '🌦': 'fas fa-cloud-sun-rain', // Possibilidade de chuva
+                '🌩': 'fas fa-bolt', // Trovão
+                '🌨': 'fas fa-snowflake', // Nevando
+                '🌧': 'fas fa-cloud-showers-heavy', // Chuvoso
+                '⛈': 'fas fa-poo-storm', // Tempestade
+            }
+
+            const icon = lines[0].trim() // Ícone da condição
             const temperature = lines[1] // Temperatura
             const condition = lines[2] // Condição
             const location = lines[3] // Local
+
+            const weatherIcon = weatherIcons[icon] || 'fas fa-temperature-half'
 
             const emoji = temperature.includes('°C')
                 ? parseInt(temperature, 10) > 35
@@ -229,7 +275,7 @@ function fetchWeather() {
             const styledCondition = `<span style="font-size: 12px; font-family: 'Courier New', monospace; font-weight: 500;">(${condition})</span>`
 
             // Manipula o HTML para colocar a temperatura e a cidade em negrito, e a condição com uma fonte menor
-            const formattedHTML = `${icon} Atualmente está <strong>${modifiedTemperature}</strong> ${styledCondition} em <strong>${location}</strong>.`
+            const formattedHTML = `<i class="${weatherIcon}"></i> Atualmente está <strong>${modifiedTemperature}</strong> ${styledCondition} em <strong>${location}</strong>.`
 
             weatherElement.innerHTML = formattedHTML
         })
