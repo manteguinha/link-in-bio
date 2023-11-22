@@ -497,6 +497,7 @@
 }
 
 .nome__musica {
+    min-width: 0;
     margin: 0;
     color: #ffffff;
     font-size: 16px;
@@ -506,6 +507,8 @@
     font-family: 'CircularSpTitle', 'CircularSpTitle-Tall', 'CircularSp-Arab', 'CircularSp-Hebr', 'CircularSp-Cyrl',
         'CircularSp-Grek', 'CircularSp-Deva', 'Helvetica Neue', helvetica, arial, 'Hiragino Kaku Gothic Pro', Meiryo,
         'MS Gothic';
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .nome__banda {

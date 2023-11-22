@@ -136,11 +136,13 @@ function updateSpotifyCard(responseData) {
     const localNomeMusica = document.getElementById('nomeMusica')
     const localNomeArtista = document.getElementById('nomeBanda')
     const localImagemAlbum = document.getElementById('imagemAlbum')
+    const localOuvinhoSpotify = document.getElementById('ouvindoSpotify')
 
     // atualiza os campos do html
     localNomeMusica.innerHTML = nomeMusica
     localNomeArtista.innerHTML = nomeArtista
     localImagemAlbum.src = imagemAlbum
+    localOuvinhoSpotify.innerHTML = 'Ouvindo no Spotify'
 }
 
 function updateSpotifyCardDefault() {
