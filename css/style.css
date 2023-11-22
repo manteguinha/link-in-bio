@@ -490,14 +490,13 @@
 
 .card-content {
     flex: 2;
-    padding-left: 20px;
+    padding-left: 12px;
     display: flex;
     justify-content: center;
     flex-direction: column;
 }
 
 .nome__musica {
-    min-width: 0;
     margin: 0;
     color: #ffffff;
     font-size: 16px;
