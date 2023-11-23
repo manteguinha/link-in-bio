@@ -23,6 +23,8 @@
         --link-button-background-color-hover: rgba(0, 0, 0, 0.6);
         --social-media-icon-color-hover: rgba(255, 255, 255, 0.2);
         --snooze-icon: url(../img/snooze_darkTheme.svg);
+        --card-collor-music: #282828;
+        --icon-spotify: #1ed760;
     }
 
     .lightTheme {
@@ -41,6 +43,8 @@
         --link-button-background-color-hover: rgba(0, 0, 0, 0.6);
         --social-media-icon-color-hover: rgba(0, 0, 0, 0.2);
         --snooze-icon: url(../img/snooze_lightTheme.svg);
+        --card-collor-music: #36393f;
+        --icon-spotify: #1ed760;
     }
 
     body {
@@ -198,6 +202,122 @@
         padding: 24px 0;
         text-align: center;
         font-size: 14px;
+    }
+
+    /* CSS CARD SPOTIFY */
+    .card {
+        display: flex;
+        width: 100%;
+        height: 100px;
+        padding: 0px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+        background-color: var(--card-collor-music);
+    }
+
+    .card-info {
+        display: flex;
+        width: 100%;
+        padding: 12px;
+    }
+
+    .card-image {
+        flex: 1;
+        display: flex;
+        /* Novo */
+        align-items: center;
+        /* Novo */
+        overflow: hidden;
+    }
+
+    .card-image img {
+        flex: 0;
+        max-width: 100%;
+        /* Modificado */
+        max-height: 100%;
+        /* Modificado */
+        height: auto;
+        /* Modificado */
+        border-radius: 10px;
+        transition: transform 0.3s ease;
+    }
+
+    .card-content {
+        flex: 2;
+        padding-left: 12px;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+    }
+
+    .nome__musica {
+        margin: 0;
+        color: #ffffff;
+        font-size: 16px;
+        line-height: normal;
+        text-align: start;
+        letter-spacing: normal;
+        font-family: 'CircularSpTitle', 'CircularSpTitle-Tall', 'CircularSp-Arab', 'CircularSp-Hebr', 'CircularSp-Cyrl',
+            'CircularSp-Grek', 'CircularSp-Deva', 'Helvetica Neue', helvetica, arial, 'Hiragino Kaku Gothic Pro', Meiryo,
+            'MS Gothic';
+        white-space: nowrap;
+        overflow: hidden;
+    }
+
+    .nome__banda {
+        margin: 0;
+        color: #ffffff;
+        font-size: 12px;
+        line-height: normal;
+        text-align: start;
+        letter-spacing: normal;
+        opacity: 0.5;
+        font-family: 'CircularSp', 'CircularSp-Arab', 'CircularSp-Hebr', 'CircularSp-Cyrl', 'CircularSp-Grek',
+            'CircularSp-Deva', 'Helvetica Neue', helvetica, arial, 'Hiragino Kaku Gothic Pro', Meiryo, 'MS Gothic';
+    }
+
+    .ouvindo__spotify {
+        display: flex;
+        align-items: center;
+        padding: 0.5rem 0 0rem 0;
+        color: #ffffff;
+        font-size: 10px;
+        line-height: normal;
+        text-align: start;
+        letter-spacing: normal;
+        opacity: 0.5;
+        font-family: 'CircularSp', 'CircularSp-Arab', 'CircularSp-Hebr', 'CircularSp-Cyrl', 'CircularSp-Grek',
+            'CircularSp-Deva', 'Helvetica Neue', helvetica, arial, 'Hiragino Kaku Gothic Pro', Meiryo, 'MS Gothic';
+    }
+
+    .ouvindo__spotify p {
+        margin-left: 3px;
+        margin-top: 1px;
+        color: #ffffff;
+        opacity: 0.5;
+    }
+
+    .card-logo {
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .icone__spotify {
+        font-size: 1.3rem;
+        line-height: normal;
+        text-align: start;
+        letter-spacing: normal;
+        color: var(--icon-spotify);
+    }
+
+    .clock-container {
+        display: flex;
+        align-items: center; /* Alinha verticalmente */
+    }
+
+    /* quero um espaco entre o icone e o relogio */
+    .clock-container p {
+        margin-left: 5px;
     }
 
     @keyframes slide-in {
@@ -259,98 +379,30 @@
 }
 
 @media (prefers-color-scheme: light) {
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-
     body {
         background-color: var(--background-color);
     }
 
     body * {
-        font-family: 'DM Sans', sans-serif;
         color: var(--text-color);
     }
 
-    #container {
-        width: 100%;
-        max-width: 588px;
-        margin: 56px auto 0px;
-        padding: 0 24px;
-    }
-
     #snooze-icon {
-        display: inline-block;
-        width: 16px; /* Ajuste o tamanho conforme necessário */
-        height: 16px;
         background-image: var(--snooze-icon);
     }
 
     #share-button button {
-        display: inline-block;
-        position: absolute;
-        right: 0;
-        width: 32px;
-        height: 32px;
-        font-size: 16px;
         background-color: var(--share-buton-background-color);
         background-image: var(--share-button-icon);
-        background-repeat: no-repeat;
-        background-position: center;
-        border: none;
-        border-radius: 50%;
     }
 
     #share-button button:hover {
         outline: 8px solid var(--share-button-icon-color-hover);
     }
 
-    #profile {
-        position: relative;
-        text-align: center;
-        padding: 24px 0;
-    }
-
-    #profile img {
-        max-width: 112px;
-        width: 112px;
-        height: auto;
-        border-radius: 50%;
-    }
-
-    #profile p {
-        font-weight: 500;
-        line-height: 24px;
-        margin-top: 8px;
-    }
-
-    #theme-switcher {
-        position: relative;
-        width: 64px;
-        margin: 4px auto;
-    }
-
     #theme-switcher button {
-        width: 32px;
-        height: 32px;
         background-color: var(--theme-switcher-button-icon-background-color);
         background-image: var(--theme-switcher-button-icon);
-        background-repeat: no-repeat;
-        background-position: center;
-        border: 0;
-        border-radius: 50%;
-        position: absolute;
-        top: 50%;
-        left: 0;
-        z-index: 1;
-        transform: translateY(-50%);
-        animation: slide-back 0.2s;
-    }
-
-    .lightTheme #theme-switcher button {
-        animation: slide-in 0.2s forwards;
     }
 
     #theme-switcher button:hover {
@@ -358,88 +410,30 @@
     }
 
     #theme-switcher span {
-        display: block;
-        width: 64px;
-        height: 24px;
         background-color: var(--theme-switcher-span-background-color);
         border: 1px solid var(--theme-switcher-span-color-hover);
-        backdrop-filter: blur(4px);
-        -webkit-backdrop-filter: blur(4px);
-        border-radius: 9999px;
-    }
-
-    ul {
-        list-style: none;
-        display: flex;
-        flex-direction: column;
-        gap: 16px;
-        padding: 24px 0;
     }
 
     ul li a {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 16px 24px;
         color: var(--link-button-text-color);
         background-color: var(--link-button-background-color);
-        border-radius: 8px;
-        backdrop-filter: blur(4px);
-        -webkit-backdrop-filter: blur(4px);
-        text-decoration: none;
-        font-weight: 500;
-        transition: background 0.2s;
     }
 
     ul li a:hover {
         background-color: var(--link-button-background-color-hover);
     }
 
-    #social-media {
-        display: flex;
-        justify-content: center;
-        padding: 24px 0;
-        font-size: 24px;
-    }
-
-    #social-media a {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 16px;
-        transition: background 0.2s;
-        border-radius: 50%;
-    }
-
     #social-media a:hover {
         background-color: var(--social-media-icon-color-hover);
     }
 
-    footer {
-        margin-top: auto;
-        padding: 24px 0;
-        text-align: center;
-        font-size: 14px;
+    /* CSS CARD SPOTIFY */
+    .card {
+        background-color: var(--card-collor-music);
     }
 
-    @keyframes slide-in {
-        from {
-            left: 0;
-        }
-
-        to {
-            left: 50%;
-        }
-    }
-
-    @keyframes slide-back {
-        from {
-            left: 50%;
-        }
-
-        to {
-            left: 0;
-        }
+    .icone__spotify {
+        color: var(--icon-spotify);
     }
 }
 
@@ -448,118 +442,4 @@
     #share-button button {
         display: none;
     }
-}
-
-/* CSS CARD SPOTIFY */
-.card {
-    display: flex;
-    width: 100%;
-    height: 100px;
-    padding: 0px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
-    background-color: #282828;
-}
-
-.card-info {
-    display: flex;
-    width: 100%;
-    padding: 12px;
-}
-
-.card-image {
-    flex: 1;
-    display: flex;
-    /* Novo */
-    align-items: center;
-    /* Novo */
-    overflow: hidden;
-}
-
-.card-image img {
-    flex: 0;
-    max-width: 100%;
-    /* Modificado */
-    max-height: 100%;
-    /* Modificado */
-    height: auto;
-    /* Modificado */
-    border-radius: 10px;
-    transition: transform 0.3s ease;
-}
-
-.card-content {
-    flex: 2;
-    padding-left: 12px;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-}
-
-.nome__musica {
-    margin: 0;
-    color: #ffffff;
-    font-size: 16px;
-    line-height: normal;
-    text-align: start;
-    letter-spacing: normal;
-    font-family: 'CircularSpTitle', 'CircularSpTitle-Tall', 'CircularSp-Arab', 'CircularSp-Hebr', 'CircularSp-Cyrl',
-        'CircularSp-Grek', 'CircularSp-Deva', 'Helvetica Neue', helvetica, arial, 'Hiragino Kaku Gothic Pro', Meiryo,
-        'MS Gothic';
-    white-space: nowrap;
-    overflow: hidden;
-}
-
-.nome__banda {
-    margin: 0;
-    color: #ffffff;
-    font-size: 12px;
-    line-height: normal;
-    text-align: start;
-    letter-spacing: normal;
-    opacity: 0.5;
-    font-family: 'CircularSp', 'CircularSp-Arab', 'CircularSp-Hebr', 'CircularSp-Cyrl', 'CircularSp-Grek',
-        'CircularSp-Deva', 'Helvetica Neue', helvetica, arial, 'Hiragino Kaku Gothic Pro', Meiryo, 'MS Gothic';
-}
-
-.ouvindo__spotify {
-    display: flex;
-    align-items: center;
-    padding: 0.5rem 0 0rem 0;
-    color: #ffffff;
-    font-size: 10px;
-    line-height: normal;
-    text-align: start;
-    letter-spacing: normal;
-    opacity: 0.5;
-    font-family: 'CircularSp', 'CircularSp-Arab', 'CircularSp-Hebr', 'CircularSp-Cyrl', 'CircularSp-Grek',
-        'CircularSp-Deva', 'Helvetica Neue', helvetica, arial, 'Hiragino Kaku Gothic Pro', Meiryo, 'MS Gothic';
-}
-
-.ouvindo__spotify p {
-    margin-left: 3px;
-    margin-top: 1px;
-}
-
-.card-logo {
-    display: flex;
-    justify-content: flex-end;
-}
-
-.icone__spotify {
-    font-size: 1.3rem;
-    line-height: normal;
-    text-align: start;
-    letter-spacing: normal;
-    color: #1ed760;
-}
-
-.clock-container {
-    display: flex;
-    align-items: center; /* Alinha verticalmente */
-}
-
-/* quero um espaco entre o icone e o relogio */
-.clock-container p {
-    margin-left: 5px;
 }

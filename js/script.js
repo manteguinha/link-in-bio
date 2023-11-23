@@ -3,10 +3,13 @@ const typewriterElement = document.querySelector('.typewriter')
 
 const img = document.querySelector('#profile img')
 
+const url_img_perfil_dark = 'https://avatars.githubusercontent.com/u/63943591?v=4'
+const url_img_perfil_light = 'https://avatars.githubusercontent.com/u/63943591?v=4'
+
 if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
-    img.setAttribute('src', 'https://avatars.githubusercontent.com/u/63943591?v=4')
+    img.setAttribute('src', url_img_perfil_light)
 } else {
-    img.setAttribute('src', 'https://avatars.githubusercontent.com/u/63943591?v=4')
+    img.setAttribute('src', url_img_perfil_dark)
 }
 
 if (typewriterElement) {
@@ -20,9 +23,9 @@ window.matchMedia('(prefers-color-scheme: light)').addListener(event => {
     const theme = event.matches ? 'light' : 'dark'
 
     if (theme === 'light') {
-        img.setAttribute('src', 'https://avatars.githubusercontent.com/u/63943591?v=4')
+        img.setAttribute('src', url_img_perfil_light)
     } else {
-        img.setAttribute('src', 'https://avatars.githubusercontent.com/u/63943591?v=4')
+        img.setAttribute('src', url_img_perfil_dark)
     }
 })
 
@@ -44,12 +47,12 @@ function switchTheme() {
         html.classList.remove('darkTheme')
         html.classList.add('lightTheme')
         setTheme('light')
-        img.setAttribute('src', 'https://avatars.githubusercontent.com/u/63943591?v=4')
+        img.setAttribute('src', url_img_perfil_light)
     } else {
         html.classList.remove('lightTheme')
         html.classList.add('darkTheme')
         setTheme('dark')
-        img.setAttribute('src', 'https://avatars.githubusercontent.com/u/63943591?v=4')
+        img.setAttribute('src', url_img_perfil_dark)
     }
 }
 
@@ -59,14 +62,14 @@ window.addEventListener('DOMContentLoaded', () => {
     if (savedTheme === null) {
         // Caso não haja tema salvo, define o tema escuro como padrão
         html.classList.add('darkTheme')
-        img.setAttribute('src', 'https://avatars.githubusercontent.com/u/63943591?v=4')
+        img.setAttribute('src', url_img_perfil_dark)
         setTheme('dark') // Define o tema escuro no localStorage
     } else if (savedTheme === 'dark') {
         html.classList.add('darkTheme')
-        img.setAttribute('src', 'https://avatars.githubusercontent.com/u/63943591?v=4')
+        img.setAttribute('src', url_img_perfil_dark)
     } else {
         html.classList.add('lightTheme')
-        img.setAttribute('src', 'https://avatars.githubusercontent.com/u/63943591?v=4')
+        img.setAttribute('src', url_img_perfil_light)
     }
 })
 
