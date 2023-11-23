@@ -78,15 +78,16 @@ function share() {
         if (navigator.share) {
             navigator.share({
                 title: 'Marcos Vinicius | MVMS',
+                text: "//Maybe, perhaps, I don't know",
                 url: 'https://bio.mvms.dev',
             })
 
-            console.info('You have shared the link successfully!')
+            console.info('Você compartilhou omeu link! Obrigado! :)')
         } else {
             alert('Poxa, parece que seu navegador não suporta a API de compartilhamento da Web! :(')
         }
     } catch (error) {
-        console.error(`An error occured while using the Web share API!\nError: ${error}`)
+        console.error(`Ocorreu um erro ao compartilhar o link: ${error.message}`)
     }
 }
 
