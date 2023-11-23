@@ -78,11 +78,10 @@ function share() {
         if (navigator.share) {
             navigator.share({
                 title: 'Marcos Vinicius | MVMS',
-                text: "//Maybe, perhaps, I don't know",
                 url: 'https://bio.mvms.dev',
             })
 
-            console.info('Você compartilhou omeu link! Obrigado! :)')
+            console.info('Você compartilhou o meu link! Obrigado! :)')
         } else {
             alert('Poxa, parece que seu navegador não suporta a API de compartilhamento da Web! :(')
         }
