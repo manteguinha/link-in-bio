@@ -153,7 +153,7 @@ function updateSpotifyCardDefault() {
     localNomeMusica.innerHTML = 'Back in Black'
     localNomeArtista.innerHTML = 'AC/DC'
     localOuvinhoSpotify.innerHTML = 'Spotify'
-    localImagemAlbum.src = 'https://lastfm.freetls.fastly.net/i/u/174s/678ee60bb2f93f3e7a6c23e1853210da.jpg'
+    localImagemAlbum.src = '../img/acdc.webp'
 }
 
 function transformSpotifyLink(linkSpotify) {
