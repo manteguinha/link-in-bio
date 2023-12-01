@@ -49,11 +49,11 @@
 
     body {
         background-color: var(--background-color);
+        color: var(--text-color);
     }
 
     body * {
         font-family: 'DM Sans', sans-serif;
-        color: var(--text-color);
     }
 
     #container {
@@ -191,6 +191,7 @@
         padding: 16px;
         transition: background 0.2s;
         border-radius: 50%;
+        color: var(--text-color);
     }
 
     #social-media a:hover {
@@ -202,6 +203,12 @@
         padding: 24px 0;
         text-align: center;
         font-size: 14px;
+    }
+
+    footer a {
+        color: var(--text-color);
+        text-decoration: none;
+        font-weight: 600;
     }
 
     /* CSS CARD SPOTIFY */
@@ -302,7 +309,7 @@
         justify-content: flex-end;
     }
 
-    .icone__spotify {
+    .icone-spotify {
         font-size: 1.3rem;
         line-height: normal;
         text-align: start;
@@ -376,65 +383,6 @@
     text-decoration: none;
     font-display: auto;
     font-family: monospace, monospace;
-}
-
-@media (prefers-color-scheme: light) {
-    body {
-        background-color: var(--background-color);
-    }
-
-    body * {
-        color: var(--text-color);
-    }
-
-    #snooze-icon {
-        background-image: var(--snooze-icon);
-    }
-
-    #share-button button {
-        background-color: var(--share-buton-background-color);
-        background-image: var(--share-button-icon);
-    }
-
-    #share-button button:hover {
-        outline: 8px solid var(--share-button-icon-color-hover);
-    }
-
-    #theme-switcher button {
-        background-color: var(--theme-switcher-button-icon-background-color);
-        background-image: var(--theme-switcher-button-icon);
-    }
-
-    #theme-switcher button:hover {
-        outline: 8px solid var(--theme-switcher-button-icon-color-hover);
-    }
-
-    #theme-switcher span {
-        background-color: var(--theme-switcher-span-background-color);
-        border: 1px solid var(--theme-switcher-span-color-hover);
-    }
-
-    ul li a {
-        color: var(--link-button-text-color);
-        background-color: var(--link-button-background-color);
-    }
-
-    ul li a:hover {
-        background-color: var(--link-button-background-color-hover);
-    }
-
-    #social-media a:hover {
-        background-color: var(--social-media-icon-color-hover);
-    }
-
-    /* CSS CARD SPOTIFY */
-    .card {
-        background-color: var(--card-collor-music);
-    }
-
-    .icone__spotify {
-        color: var(--icon-spotify);
-    }
 }
 
 /* se for um desktop o botao de compartilhar nao aparece */
