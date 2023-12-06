@@ -9,7 +9,7 @@
 
     :root {
         --text-color: #a9a9b3;
-        --background-color: #36393f;
+        --background-color: #292a2d;
         --share-button-icon: url(../img/share_darkTheme.svg);
         --share-buton-background-color: #a9a9b3;
         --share-button-icon-color-hover: rgba(255, 255, 255, 0.2);
@@ -19,11 +19,11 @@
         --theme-switcher-button-icon-background-color: #a9a9b3;
         --theme-switcher-button-icon-color-hover: rgba(255, 255, 255, 0.2);
         --link-button-text-color: #a9a9b3;
-        --link-button-background-color: #282828;
+        --link-button-background-color: #252627;
         --link-button-background-color-hover: rgba(0, 0, 0, 0.6);
         --social-media-icon-color-hover: rgba(255, 255, 255, 0.2);
         --snooze-icon: url(../img/snooze_darkTheme.svg);
-        --card-collor-music: #282828;
+        --card-collor-music: #252627;
         --icon-spotify: #1ed760;
     }
 
@@ -39,11 +39,11 @@
         --theme-switcher-button-icon-background-color: #000000;
         --theme-switcher-button-icon-color-hover: rgba(0, 0, 0, 0.2);
         --link-button-text-color: #ffffff;
-        --link-button-background-color: #36393f;
+        --link-button-background-color: #252627;
         --link-button-background-color-hover: rgba(0, 0, 0, 0.6);
         --social-media-icon-color-hover: rgba(0, 0, 0, 0.2);
         --snooze-icon: url(../img/snooze_lightTheme.svg);
-        --card-collor-music: #36393f;
+        --card-collor-music: #252627;
         --icon-spotify: #1ed760;
     }
 
@@ -215,7 +215,7 @@
     .card {
         display: flex;
         width: 100%;
-        height: 100px;
+        height: 90px;
         padding: 0px;
         border-radius: 10px;
         box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
@@ -225,7 +225,7 @@
     .card-info {
         display: flex;
         width: 100%;
-        padding: 12px;
+        padding: 8px;
     }
 
     .card-image {
@@ -251,7 +251,7 @@
 
     .card-content {
         flex: 2;
-        padding-left: 12px;
+        padding-left: 10px;
         display: flex;
         justify-content: center;
         flex-direction: column;
@@ -310,7 +310,7 @@
     }
 
     .icone-spotify {
-        font-size: 1.3rem;
+        font-size: 1.1rem;
         line-height: normal;
         text-align: start;
         letter-spacing: normal;
