@@ -283,7 +283,7 @@ function fetchWeather() {
             weatherElement.innerHTML = formattedHTML
         })
         .catch(error => {
-            console.error('Erro ao buscar dados do clima:', error)
+            console.error('Não foi possível obter os dados do clima :(')
         })
 }
 
