@@ -102,7 +102,7 @@ const defaultLink = 'https://open.spotify.com/embed/track/08mG3Y1vljYA6bvDt4Wqkj
 
 async function fetchData() {
     try {
-        const response = await fetch('https://moonlit-lollipop-cc73aa.netlify.app/api/musguinha')
+        const response = await fetch('https://biomvms.netlify.app/api/musguinha')
         if (response.ok) {
             const responseData = await response.json()
 
