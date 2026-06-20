@@ -232,19 +232,22 @@ function fetchWeather() {
         .then(response => response.text())
         .then(data => {
             const weatherElement = document.getElementById('weather')
-            
-            let textData = data;
+
+            let textData = data
             // Se a API retornar HTML (frequente em navegadores), extrai o texto do container
             if (textData.includes('<div class="term-container">')) {
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(textData, 'text/html');
-                const termContainer = doc.querySelector('.term-container');
+                const parser = new DOMParser()
+                const doc = parser.parseFromString(textData, 'text/html')
+                const termContainer = doc.querySelector('.term-container')
                 if (termContainer) {
-                    textData = termContainer.textContent || termContainer.innerText;
+                    textData = termContainer.textContent || termContainer.innerText
                 }
             }
-            
-            const lines = textData.trim().split('\n').map(line => line.trim()) // Separa os dados e remove espaços
+
+            const lines = textData
+                .trim()
+                .split('\n')
+                .map(line => line.trim()) // Separa os dados e remove espaços
 
             const weatherIcons = {
                 '☀️': 'fas fa-sun', // Ensolarado
@@ -279,8 +282,8 @@ function fetchWeather() {
                 ? parseInt(temperature, 10) > 35
                     ? '🔥 '
                     : parseInt(temperature, 10) < 20
-                    ? '❄️ '
-                    : ''
+                      ? '❄️ '
+                      : ''
                 : ''
             const modifiedTemperature = temperature.replace('+', emoji)
 
