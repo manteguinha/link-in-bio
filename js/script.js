@@ -2,6 +2,8 @@ const html = document.documentElement
 const typewriterElement = document.querySelector('.typewriter')
 
 const img = document.querySelector('#profile img')
+const themeButton = document.querySelector('#theme-switcher button')
+const themeColorMeta = document.querySelector('meta[name="theme-color"]')
 
 const url_img_perfil_dark = 'https://avatars.githubusercontent.com/u/63943591?v=4'
 const url_img_perfil_light = 'https://avatars.githubusercontent.com/u/63943591?v=4'
@@ -19,14 +21,10 @@ if (typewriterElement) {
     typeWriter(linguagens_inicio, 0)
 }
 
-window.matchMedia('(prefers-color-scheme: light)').addListener(event => {
+const media = window.matchMedia('(prefers-color-scheme: light)')
+media.addEventListener('change', event => {
     const theme = event.matches ? 'light' : 'dark'
-
-    if (theme === 'light') {
-        img.setAttribute('src', url_img_perfil_light)
-    } else {
-        img.setAttribute('src', url_img_perfil_dark)
-    }
+    applyTheme(theme)
 })
 
 // Função para obter o tema atual
@@ -39,37 +37,40 @@ function setTheme(theme) {
     localStorage.setItem('theme', theme)
 }
 
-// Função para alternar entre temas
-function switchTheme() {
-    const currentTheme = getTheme()
+function updateThemeColorMeta(theme) {
+    if (!themeColorMeta) return
+    themeColorMeta.setAttribute('content', theme === 'light' ? '#ffffff' : '#292a2d')
+}
 
-    if (currentTheme === 'dark') {
+function applyTheme(theme) {
+    if (theme === 'light') {
         html.classList.remove('darkTheme')
         html.classList.add('lightTheme')
-        setTheme('light')
         img.setAttribute('src', url_img_perfil_light)
+        themeButton && themeButton.setAttribute('aria-pressed', 'true')
     } else {
         html.classList.remove('lightTheme')
         html.classList.add('darkTheme')
-        setTheme('dark')
         img.setAttribute('src', url_img_perfil_dark)
+        themeButton && themeButton.setAttribute('aria-pressed', 'false')
     }
+    setTheme(theme)
+    updateThemeColorMeta(theme)
+}
+
+// Função para alternar entre temas
+function switchTheme() {
+    const currentTheme = getTheme()
+    const nextTheme = currentTheme === 'dark' ? 'light' : 'dark'
+    applyTheme(nextTheme)
 }
 
 window.addEventListener('DOMContentLoaded', () => {
     const savedTheme = getTheme()
-
     if (savedTheme === null) {
-        // Caso não haja tema salvo, define o tema escuro como padrão
-        html.classList.add('darkTheme')
-        img.setAttribute('src', url_img_perfil_dark)
-        setTheme('dark') // Define o tema escuro no localStorage
-    } else if (savedTheme === 'dark') {
-        html.classList.add('darkTheme')
-        img.setAttribute('src', url_img_perfil_dark)
+        applyTheme('dark')
     } else {
-        html.classList.add('lightTheme')
-        img.setAttribute('src', url_img_perfil_light)
+        applyTheme(savedTheme === 'dark' ? 'dark' : 'light')
     }
 })
 
@@ -138,10 +139,10 @@ function updateSpotifyCard(responseData) {
     const localOuvinhoSpotify = document.getElementById('ouvindoSpotify')
 
     // atualiza os campos do html
-    localNomeMusica.innerHTML = nomeMusica
-    localNomeArtista.innerHTML = nomeArtista
+    localNomeMusica.textContent = nomeMusica
+    localNomeArtista.textContent = nomeArtista
     localImagemAlbum.src = imagemAlbum
-    localOuvinhoSpotify.innerHTML = 'Ouvindo no Spotify'
+    localOuvinhoSpotify.textContent = 'Ouvindo no Spotify'
 }
 
 function updateSpotifyCardDefault() {
@@ -150,10 +151,10 @@ function updateSpotifyCardDefault() {
     const localImagemAlbum = document.getElementById('imagemAlbum')
     const localOuvinhoSpotify = document.getElementById('ouvindoSpotify')
 
-    localNomeMusica.innerHTML = 'Back in Black'
-    localNomeArtista.innerHTML = 'AC/DC'
-    localOuvinhoSpotify.innerHTML = 'Spotify'
-    localImagemAlbum.src = '../img/acdc.webp'
+    localNomeMusica.textContent = 'Back in Black'
+    localNomeArtista.textContent = 'AC/DC'
+    localOuvinhoSpotify.textContent = 'Spotify'
+    localImagemAlbum.src = './img/acdc.webp'
 }
 
 function transformSpotifyLink(linkSpotify) {
@@ -231,7 +232,19 @@ function fetchWeather() {
         .then(response => response.text())
         .then(data => {
             const weatherElement = document.getElementById('weather')
-            const lines = data.trim().split('\n') // Separa os dados por quebras de linha e remove espaços em branco
+            
+            let textData = data;
+            // Se a API retornar HTML (frequente em navegadores), extrai o texto do container
+            if (textData.includes('<div class="term-container">')) {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(textData, 'text/html');
+                const termContainer = doc.querySelector('.term-container');
+                if (termContainer) {
+                    textData = termContainer.textContent || termContainer.innerText;
+                }
+            }
+            
+            const lines = textData.trim().split('\n').map(line => line.trim()) // Separa os dados e remove espaços
 
             const weatherIcons = {
                 '☀️': 'fas fa-sun', // Ensolarado
@@ -255,10 +268,10 @@ function fetchWeather() {
                 '⛈': 'fas fa-poo-storm', // Tempestade
             }
 
-            const icon = lines[0].trim() // Ícone da condição
-            const temperature = lines[1] // Temperatura
-            const condition = lines[2] // Condição
-            const location = lines[3] // Local
+            const icon = lines[0] || '' // Ícone da condição
+            const temperature = lines[1] || '' // Temperatura
+            const condition = lines[2] || '' // Condição
+            const location = lines[3] || '' // Local
 
             const weatherIcon = weatherIcons[icon] || 'fas fa-temperature-half'
 
@@ -294,4 +307,4 @@ fetchData()
 setInterval(fetchData, 10000)
 
 fetchWeather()
-setInterval(fetchWeather, 10000)
+setInterval(fetchWeather, 600000)

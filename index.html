@@ -10,16 +10,23 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="google" content="notranslate">
 	<meta http-equiv="Content-Language" content="pt-br">
+	<meta name="theme-color" content="#292a2d">
+	<link rel="canonical" href="https://bio.mvms.dev">
 	<meta property="og:title" content="Marcos Vinicius | MVMS">
-	<meta property="og:description" content="<p>//Maybe, perhaps, I don't know</p>">
+	<meta property="og:description" content="//Maybe, perhaps, I don't know">
 	<meta property="og:image"
-		content="https://openbio.app/api/og?title=Marcos%20Vinicius&description=%3Cp%3E//Maybe,%20perhaps,%20I%20don%27t%20know%3C/p%3E">
+		content="https://openbio.app/api/og?title=Marcos%20Vinicius&description=%2F%2FMaybe%2C%20perhaps%2C%20I%20don%27t%20know">
 	<meta property="og:type" content="website">
+	<meta property="og:url" content="https://bio.mvms.dev">
+	<meta property="og:site_name" content="MVMS">
+	<meta name="twitter:card" content="summary_large_image">
 	<link rel="icon" href="img/favicon.png">
-	<link rel="stylesheet" href="css/style.css">
 	<link rel="manifest" href="manifest.json">
-	<script src="https://kit.fontawesome.com/69bb8dd1b2.js" crossorigin="anonymous"></script>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="css/style.css">
 
 </head>
 
@@ -27,10 +34,10 @@
 	<main id="container">
 		<section id="profile">
 			<div id="share-button" onclick="share()">
-				<button></button>
+				<button aria-label="Compartilhar perfil" title="Compartilhar perfil"></button>
 			</div>
 
-			<img alt="Avatar" draggable="false">
+			<img alt="Foto de Marcos Vinicius" draggable="false" width="112" height="112">
 
 			<h1>Marcos Vinicius</h1>
 			<span class="frase__bio typewriter">//Maybe, perhaps, I don't know</span>
@@ -38,24 +45,29 @@
 		</section>
 
 		<section id="theme-switcher" onclick="switchTheme()">
-			<button></button>
+			<button aria-label="Alternar tema" aria-pressed="false" title="Alternar tema"></button>
 			<span></span>
 		</section>
 
 
-		<ul>
-			<div>
+		<section class="info">
+			<div class="clock-weather">
 				<p id="clock"></p>
 				<p id="weather"></p>
 			</div>
-			<li>
-				<a href="https://mvms.dev" target="_blank">Descubra Minha Jornada</a>
-			</li>
+		</section>
 
+		<ul>
+			<li>
+				<a href="https://mvms.dev" target="_blank" rel="noopener noreferrer">Descubra Minha Jornada</a>
+			</li>
+		</ul>
+
+		<section>
 			<div class="card">
 				<div class="card-info">
 					<div class="card-image">
-						<img id="imagemAlbum" src="./img/acdc.webp" alt="Album Image">
+						<img id="imagemAlbum" src="./img/acdc.webp" alt="Capa do álbum" loading="lazy">
 						<div class="card-content">
 							<h2 id="nomeMusica" class="nome__musica">Back In Black</h2>
 							<p id="nomeBanda" class="nome__banda">AC/DC</p>
@@ -71,36 +83,36 @@
 					</div>
 				</div>
 			</div>
-		</ul>
+		</section>
 
 		<section id="social-media">
 
-			<a href="https://github.com/manteguinha" target="_blank">
+			<a href="https://github.com/manteguinha" target="_blank" rel="noopener noreferrer">
 				<i class="fa-brands fa-github"></i>
 			</a>
 
-			<a href="https://linkedin.com/in/manteguinha" target="_blank">
+			<a href="https://linkedin.com/in/manteguinha" target="_blank" rel="noopener noreferrer">
 				<i class="fa-brands fa-linkedin-in"></i>
 			</a>
 
-			<a href="https://instagram.com/marcosvinicius.zip" target="_blank">
+			<a href="https://instagram.com/marcosvinicius.zip" target="_blank" rel="noopener noreferrer">
 				<i class="fa-brands fa-instagram"></i>
 			</a>
 
-			<a href="https://x.com/manteguinhaaa" target="_blank">
+			<a href="https://x.com/manteguinhaaa" target="_blank" rel="noopener noreferrer">
 				<i class="fa-brands fa-x-twitter"></i>
 			</a>
 		</section>
 
 		<footer>
 			<p>
-				<i class="fa-solid fa-code"></i> Developed with <i class="fa-solid fa-heart"></i> by <a href="https://mvms.dev"
-					target="_blank">Marcos Vinicius</a>
+				<i class="fa-solid fa-code"></i> Desenvolvido com <i class="fa-solid fa-heart"></i> por <a
+					href="https://mvms.dev" target="_blank" rel="noopener noreferrer">Marcos Vinicius</a>
 			</p>
 		</footer>
 	</main>
 
-	<script src="./js/script.js"></script>
+	<script src="./js/script.js" defer></script>
 </body>
 
 </html>
