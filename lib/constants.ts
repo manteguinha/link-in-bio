@@ -36,5 +36,8 @@ export const REDES_SOCIAIS: RedeSocial[] = [
 export const MUSGUINHA_ENDPOINT = "http://144.22.176.161:3987/musguinha"
 // wttr.in em PORTUGUÊS (subdomínio pt.) — traduz a condição ("Clear"→"Limpo") e mantém o acento de "Goiás".
 // 4 linhas: emoji(%c), temperatura(%t), condição(%C), local(%l).
+// &m força unidades métricas (°C) — por IP o wttr.in serve °F quando o request
+// vem de datacenters dos EUA (ex.: Vercel); mesmo assim a route ainda normaliza
+// como rede de segurança (ver normalizarTemperatura em weather-icons).
 export const CLIMA_ENDPOINT =
-  "https://pt.wttr.in/Goi%C3%A1s?format=%25c%0A%25t%0A%25C%0A%25l"
+  "https://pt.wttr.in/Goi%C3%A1s?format=%25c%0A%25t%0A%25C%0A%25l&m"

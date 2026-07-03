@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server"
 import { CLIMA_ENDPOINT } from "@/lib/constants"
+import { normalizarTemperatura } from "@/lib/weather-icons"
 import type { ClimaData } from "@/lib/types"
 
 // Clima: cache de 10min → no máximo ~6 chamadas/hora ao wttr.in (reliability).
@@ -26,7 +27,8 @@ export async function GET() {
 
     const data: ClimaData = {
       icone: lines[0] ?? "",
-      temperatura: lines[1] ?? "",
+      // Força °C: o wttr.in pode servir °F conforme a geo do request (ver normalizarTemperatura).
+      temperatura: normalizarTemperatura(lines[1] ?? ""),
       condicao: lines[2] ?? "",
       local: lines[3] ?? "",
     }
