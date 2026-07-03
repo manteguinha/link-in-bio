@@ -1,0 +1,136 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.darkTheme, .darkTheme *));
+
+:root {
+  --bg: #ffffff;
+  --text: #000000;
+  --link-bg: #252627;
+  --link-text: #ffffff;
+  --switch-track: #ffffff;
+  --switch-border: rgba(0, 0, 0, 0.2);
+  --switch-icon: #000000;
+  --share-bg: #000000;
+  --hover-ring: rgba(0, 0, 0, 0.2);
+}
+
+.darkTheme {
+  --bg: #292a2d;
+  --text: #a9a9b3;
+  --link-bg: #252627;
+  --link-text: #a9a9b3;
+  --switch-track: #36393f;
+  --switch-border: rgba(255, 255, 255, 0.2);
+  --switch-icon: #a9a9b3;
+  --share-bg: #a9a9b3;
+  --hover-ring: rgba(255, 255, 255, 0.2);
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-text: var(--text);
+  --color-link-bg: var(--link-bg);
+  --color-link-text: var(--link-text);
+  --color-accent: #b538d7;
+  --color-card: #252627;
+  --color-spotify: #1ed760;
+  --color-switch-track: var(--switch-track);
+  --color-switch-border: var(--switch-border);
+  --color-switch-icon: var(--switch-icon);
+  --color-share-bg: var(--share-bg);
+  --color-hover-ring: var(--hover-ring);
+  --font-sans: var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Courier New", ui-monospace, monospace;
+}
+
+@layer base {
+  html {
+    color-scheme: light;
+    -webkit-text-size-adjust: 100%;
+  }
+  html.darkTheme {
+    color-scheme: dark;
+  }
+  body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+/* Typewriter cursor blink */
+@keyframes cursor-blink {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 1; }
+}
+.logo-cursor {
+  animation: cursor-blink 2s infinite;
+}
+
+/* Theme switcher slide */
+@keyframes slide-in {
+  from { left: 0; }
+  to { left: 50%; }
+}
+@keyframes slide-back {
+  from { left: 50%; }
+  to { left: 0; }
+}
+.switch-knob.dark {
+  animation: slide-back 0.2s forwards;
+}
+.switch-knob.light {
+  animation: slide-in 0.2s forwards;
+}
+
+/* Spotify "now playing" equalizer bars */
+@keyframes eq {
+  0%, 100% { transform: scaleY(0.3); }
+  50% { transform: scaleY(1); }
+}
+.eq-bar {
+  animation: eq 0.9s ease-in-out infinite;
+  transform-origin: bottom;
+}
+
+/* Staggered fade-in entrance (desktop) */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.fade-up {
+  animation: fade-up 0.5s ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logo-cursor,
+  .switch-knob.dark,
+  .switch-knob.light,
+  .eq-bar,
+  .fade-up {
+    animation: none !important;
+  }
+  .eq-bar {
+    transform: scaleY(0.6);
+  }
+}
+
+/* Skeleton shimmer */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.skeleton {
+  background: linear-gradient(90deg, rgba(255,255,255,0.04) 25%, rgba(255,255,255,0.12) 37%, rgba(255,255,255,0.04) 63%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+}
+
+/* Focus visible accessibility */
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+  border-radius: 6px;
+}
