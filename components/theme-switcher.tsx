@@ -22,35 +22,28 @@ export default function ThemeSwitcher() {
   }, [resolvedTheme])
 
   const isLight = mounted && resolvedTheme === "light"
+  // Como no mvms.dev: o nome diz o que o clique faz, e o botão ocupa o trilho inteiro.
+  const rotulo = !mounted ? "Alternar tema" : isLight ? "Mudar para o tema escuro" : "Mudar para o tema claro"
 
   return (
-    <div className="relative mx-auto my-1 flex h-6 w-16 items-center">
+    <button
+      type="button"
+      aria-label={rotulo}
+      title={rotulo}
+      onClick={() => setTheme(isLight ? "dark" : "light")}
+      className="group relative mx-auto my-1 flex h-8 w-16 cursor-pointer items-center rounded-full"
+    >
       <span
-        className="block h-6 w-16 rounded-full border backdrop-blur-[4px]"
-        style={{ backgroundColor: "var(--switch-track)", borderColor: "var(--switch-border)" }}
         aria-hidden
+        className="block h-6 w-16 rounded-full border border-switch-border bg-switch-track backdrop-blur-[4px]"
       />
-      <button
-        type="button"
-        aria-label="Alternar tema"
-        aria-pressed={isLight}
-        title="Alternar tema"
-        onClick={() => setTheme(isLight ? "dark" : "light")}
-        className="absolute top-1/2 z-10 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full transition-[left] duration-200"
-        style={{
-          left: isLight ? "50%" : "0%",
-          backgroundColor: "var(--text)",
-          color: "var(--bg)",
-        }}
+      <span
+        aria-hidden
+        className="absolute top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full bg-text text-bg transition-[left,outline-color] duration-200 group-hover:outline-8 group-hover:outline-hover-ring"
+        style={{ left: isLight ? "50%" : "0%" }}
       >
-        {mounted ? (
-          isLight ? (
-            <Sun className="h-3.5 w-3.5" aria-hidden />
-          ) : (
-            <Moon className="h-3.5 w-3.5" aria-hidden />
-          )
-        ) : null}
-      </button>
-    </div>
+        {mounted ? isLight ? <Sun className="h-3.5 w-3.5" /> : <Moon className="h-3.5 w-3.5" /> : null}
+      </span>
+    </button>
   )
 }

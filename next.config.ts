@@ -8,17 +8,33 @@ const scriptSrc = isDev ? "'self' 'unsafe-inline' 'unsafe-eval'" : "'self' 'unsa
 
 function csp(isSw = false): string {
   if (isSw) return "default-src 'self'; script-src 'self'"
-  return `default-src 'self'; script-src ${scriptSrc}; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://avatars.githubusercontent.com https://lastfm.freetls.fastly.net; connect-src 'self'; font-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'`
+  return [
+    "default-src 'self'",
+    `script-src ${scriptSrc}`,
+    "style-src 'self' 'unsafe-inline'",
+    "img-src 'self' data: https://avatars.githubusercontent.com https://lastfm.freetls.fastly.net",
+    "connect-src 'self'",
+    "font-src 'self'",
+    "frame-src 'none'",
+    "object-src 'none'",
+    "base-uri 'self'",
+    "form-action 'self'",
+    // Ninguém pode exibir a página dentro de um iframe (proteção contra clickjacking), como no mvms.dev.
+    "frame-ancestors 'none'",
+  ].join("; ")
 }
 
 const securityHeaders = [
   { key: "X-Content-Type-Options", value: "nosniff" },
   { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
   { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
+  { key: "X-Frame-Options", value: "DENY" },
   { key: "Content-Security-Policy", value: csp() },
 ]
 
 const nextConfig: NextConfig = {
+  // Não anuncia no cabeçalho que o site usa Next.js.
+  poweredByHeader: false,
   images: {
     remotePatterns: [
       { protocol: "https", hostname: "avatars.githubusercontent.com" },

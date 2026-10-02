@@ -1,10 +1,10 @@
 import type { Metadata, Viewport } from "next"
-import { DM_Sans } from "next/font/google"
+import { DM_Sans, JetBrains_Mono } from "next/font/google"
 import "./globals.css"
 
 import { ThemeProvider } from "@/components/theme-provider"
 import { ServiceWorkerRegister } from "@/components/service-worker-register"
-import { SITE } from "@/lib/constants"
+import { PROFILE, SITE } from "@/lib/constants"
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
@@ -13,10 +13,20 @@ const dmSans = DM_Sans({
   display: "swap",
 })
 
+// Mesma monoespaçada do mvms.dev, só na bio digitada. Sem preload: o texto começa vazio
+// e é digitado aos poucos, então a fonte chega antes de aparecer.
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  weight: ["500"],
+  variable: "--font-jetbrains-mono",
+  display: "swap",
+  preload: false,
+})
+
 export const metadata: Metadata = {
-  title: SITE.title,
+  title: { default: SITE.title, template: `%s | ${SITE.author}` },
   description: SITE.description,
-  authors: [{ name: SITE.author }],
+  authors: [{ name: SITE.author, url: PROFILE.site }],
   creator: SITE.author,
   applicationName: SITE.siteName,
   metadataBase: new URL(SITE.url),
@@ -57,7 +67,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="pt-br" className={dmSans.variable} suppressHydrationWarning>
+    <html lang="pt-BR" className={`${dmSans.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
       <body>
         <ThemeProvider>{children}</ThemeProvider>
         <ServiceWorkerRegister />

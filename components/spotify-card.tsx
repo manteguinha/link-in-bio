@@ -28,19 +28,21 @@ export default function SpotifyCard() {
 
   const track = data ?? DEFAULT_TRACK
 
+  // Sem aria-label: o nome do link é o próprio texto do card (música, artista e status),
+  // igual ao que aparece na tela.
   return (
     <a
       href={track.link}
       target="_blank"
       rel="noopener noreferrer"
-      aria-label={`Abrir ${track.nome} de ${track.artista}`}
       className="group flex h-[90px] w-full items-center rounded-[10px] border-none bg-card p-2 shadow-[0_0_10px_0_rgba(0,0,0,0.5)] transition-shadow hover:shadow-[0_0_15px_0_rgba(0,0,0,0.65)]"
     >
       {/* <img> simples: a capa vem do lastfm (host externo); next/image aqui só adicionaria config p/ ganho marginais — decisão do plano. */}
+      {/* Decorativa (alt vazio): música e artista já estão escritos ao lado. */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={track.imagem}
-        alt={`Capa do álbum de ${track.nome}`}
+        alt=""
         loading="lazy"
         className="m-1 h-[74px] w-[74px] flex-none rounded-[8px] object-cover transition-transform duration-300 group-hover:scale-105"
       />
@@ -54,6 +56,7 @@ export default function SpotifyCard() {
         </div>
       </div>
       <Spotify className="mr-3 h-5 w-5 flex-none text-spotify" aria-hidden />
+      <span className="sr-only"> (abre em nova aba)</span>
     </a>
   )
 }

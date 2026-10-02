@@ -42,16 +42,21 @@ export default function ShareButton() {
         onClick={share}
         aria-label="Compartilhar perfil"
         title="Compartilhar perfil"
-        className="flex h-8 w-8 items-center justify-center rounded-full transition hover:outline-[8px] hover:outline-hover-ring"
-        style={{ backgroundColor: "var(--share-bg)", color: "var(--bg)" }}
+        className="flex h-8 w-8 items-center justify-center rounded-full bg-share-bg text-bg transition hover:outline-[8px] hover:outline-hover-ring"
       >
         <Share className="h-3.5 w-3.5" aria-hidden />
       </button>
-      {toast && (
-        <span className="absolute right-10 top-0 whitespace-nowrap rounded bg-black/80 px-2 py-1 text-xs font-medium text-white">
-          Link copiado!
-        </span>
-      )}
+      {/* Sempre no DOM para o leitor de tela anunciar quando o texto aparece. */}
+      <span
+        role="status"
+        className={
+          toast
+            ? "absolute right-10 top-0 whitespace-nowrap rounded bg-black/80 px-2 py-1 text-xs font-medium text-white"
+            : "sr-only"
+        }
+      >
+        {toast ? "Link copiado!" : null}
+      </span>
     </div>
   )
 }
