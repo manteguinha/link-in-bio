@@ -10,14 +10,13 @@ export default function Profile() {
         alt={`Foto de ${PROFILE.nome}`}
         width={112}
         height={112}
-        priority
+        preload
         className="mx-auto h-28 w-28 rounded-full"
       />
-      <h1 className="mt-2 text-xl font-bold">{PROFILE.nome}</h1>
-      <div className="mt-1 flex items-center justify-center">
-        <Typewriter />
-        <span className="logo-cursor ml-1 inline-block h-4 w-2 rounded-[1px] bg-accent" aria-hidden />
-      </div>
+      <h1 className="mt-2 text-xl font-bold text-heading">{PROFILE.nome}</h1>
+      <p className="mt-1 font-mono text-sm font-medium">
+        <Typewriter text={PROFILE.bio} cursor reservarEspaco />
+      </p>
     </section>
   )
 }

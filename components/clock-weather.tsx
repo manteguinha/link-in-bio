@@ -14,6 +14,7 @@ import {
   CloudLightning,
   CloudSnow,
   CloudFog,
+  MapPin,
   Snowflake,
   Wind,
   Thermometer,
@@ -39,12 +40,23 @@ const iconMap: Record<WeatherIconName, LucideIcon> = {
   "cloud-moon": CloudMoon,
 }
 
-const partFmt = (opts: Intl.DateTimeFormatOptions) =>
-  new Intl.DateTimeFormat("en-US", { timeZone: "America/Sao_Paulo", ...opts })
+// Formatadores criados uma vez só (o relógio redesenha a cada segundo).
+const fuso = { timeZone: "America/Sao_Paulo" } as const
+const dateFmt = new Intl.DateTimeFormat("pt-BR", { ...fuso, day: "2-digit", month: "long", year: "numeric" })
+const timeFmt = new Intl.DateTimeFormat("pt-BR", {
+  ...fuso,
+  hour: "2-digit",
+  minute: "2-digit",
+  second: "2-digit",
+  hour12: false,
+})
+const horaFmt = new Intl.DateTimeFormat("en-US", { ...fuso, hour: "2-digit", hourCycle: "h23" })
+const mesFmt = new Intl.DateTimeFormat("en-US", { ...fuso, month: "numeric" })
+const diaFmt = new Intl.DateTimeFormat("en-US", { ...fuso, day: "2-digit" })
 
 export default function ClockWeather() {
   const [now, setNow] = useState<Date | null>(null)
-  const { data: clima } = useSWR<ClimaData | null>("/api/clima", fetcher, {
+  const { data: clima, error: erroClima } = useSWR<ClimaData | null>("/api/clima", fetcher, {
     refreshInterval: 600000,
     keepPreviousData: true,
   })
@@ -56,23 +68,9 @@ export default function ClockWeather() {
     return () => window.clearInterval(id)
   }, [])
 
-  const dateFmt = new Intl.DateTimeFormat("pt-BR", {
-    timeZone: "America/Sao_Paulo",
-    day: "2-digit",
-    month: "long",
-    year: "numeric",
-  })
-  const timeFmt = new Intl.DateTimeFormat("pt-BR", {
-    timeZone: "America/Sao_Paulo",
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-    hour12: false,
-  })
-
-  const hora = now ? parseInt(partFmt({ hour: "2-digit", hourCycle: "h23" }).format(now), 10) : -1
-  const mes = now ? parseInt(partFmt({ month: "numeric" }).format(now), 10) : 0
-  const dia = now ? parseInt(partFmt({ day: "2-digit" }).format(now), 10) : 0
+  const hora = now ? parseInt(horaFmt.format(now), 10) : -1
+  const mes = now ? parseInt(mesFmt.format(now), 10) : 0
+  const dia = now ? parseInt(diaFmt.format(now), 10) : 0
   const evento = now ? eventoDeHoje(mes, dia) : null
   const isSnooze = now !== null && ehSnooze(hora)
 
@@ -81,17 +79,21 @@ export default function ClockWeather() {
   // atende todos os casos noturnos (ex.: 20h) e diurnos claros.
   const ehDia = now === null || (hora >= 6 && hora < 18)
 
+  // Sem resposta ainda → esqueleto. Se o clima não vier (API devolveu null ou falhou),
+  // a linha mostra só o local, em vez de ficar carregando para sempre.
+  const carregandoClima = clima === undefined && !erroClima
+
   const ClockIcon = isSnooze ? MoonStar : Clock
-  const WeatherIcon = clima ? iconMap[resolveWeatherIcon(clima.icone, ehDia)] : Thermometer
+  const WeatherIcon = clima ? iconMap[resolveWeatherIcon(clima.icone, ehDia)] : MapPin
 
   return (
     <div className="flex flex-col gap-1.5 min-h-[44px]">
-      <p className="text-sm min-h-[20px] flex items-center gap-1.5">
+      <p className="text-sm min-h-[20px] flex items-start gap-1.5">
         {!now ? (
           <span className="skeleton inline-block h-4 w-56 rounded" />
         ) : (
           <>
-            <ClockIcon className="h-4 w-4 inline-block align-text-bottom" aria-hidden />
+            <ClockIcon className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
             <span>
               {dateFmt.format(now)} • {timeFmt.format(now)}
               {evento && (
@@ -103,13 +105,13 @@ export default function ClockWeather() {
           </>
         )}
       </p>
-      <p className="text-sm min-h-[20px] flex items-center gap-1.5">
-        {!clima ? (
+      <p className="text-sm min-h-[20px] flex items-start gap-1.5">
+        {carregandoClima ? (
           <span className="skeleton inline-block h-4 w-44 rounded" />
         ) : (
           <>
-            <WeatherIcon className="h-4 w-4 inline-block align-text-bottom text-accent" aria-hidden />
-            <span>{formatWeather(clima)}</span>
+            <WeatherIcon className="mt-0.5 h-4 w-4 shrink-0 text-accent" aria-hidden />
+            <span>{clima ? formatWeather(clima) : "Goiás, Brasil"}</span>
           </>
         )}
       </p>

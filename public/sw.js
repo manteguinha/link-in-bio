@@ -1,6 +1,7 @@
-// Service worker manual mínimo — léguia do guia oficial do Next.js para PWAs.
+// Service worker manual mínimo, seguindo o guia oficial do Next.js para PWAs.
 // Network-first para navegação, cache-first (stale-while-revalidate) para assets estáticos.
-const CACHE = "mvms-v1"
+// Trocar o nome do cache apaga o anterior na ativação (o "mvms-v1" guardava respostas da API).
+const CACHE = "bio-v2"
 const SHELL = ["/"]
 
 self.addEventListener("install", (event) => {
@@ -28,6 +29,10 @@ self.addEventListener("fetch", (event) => {
 
   const url = new URL(req.url)
   if (url.origin !== self.location.origin) return // não cacheia cross-origin
+
+  // Clima, música e dados do React (RSC) vão sempre à rede: servidos do cache, mostrariam
+  // a resposta da visita anterior (o SWR da página já cuida de atualizar).
+  if (url.pathname.startsWith("/api/") || url.searchParams.has("_rsc") || req.headers.has("RSC")) return
 
   if (req.mode === "navigate") {
     // network-first para HTML

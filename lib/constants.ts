@@ -4,6 +4,8 @@ export const PROFILE = {
   // GitHub user id 63943591 (manteguinha). ?s=224 for 2x of the 112px display size.
   avatarUrl: "https://avatars.githubusercontent.com/u/63943591?v=4&s=224",
   url: "https://bio.mvms.dev",
+  // Site pessoal (mvms.dev redireciona para o www; o link já vai direto).
+  site: "https://www.mvms.dev",
 } as const
 
 export const SITE = {
@@ -16,7 +18,7 @@ export const SITE = {
 
 export const LINK_PRINCIPAL = {
   label: "Descubra Minha Jornada",
-  href: "https://mvms.dev",
+  href: PROFILE.site,
 } as const
 
 export type RedeSocial = {
