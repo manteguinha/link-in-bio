@@ -95,7 +95,9 @@ export default function ClockWeather() {
           <>
             <ClockIcon className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
             <span>
-              {dateFmt.format(now)} • {timeFmt.format(now)}
+              <time dateTime={now.toISOString()}>
+                {dateFmt.format(now)} • {timeFmt.format(now)}
+              </time>
               {evento && (
                 <span className="ml-1">
                   — <strong>{evento.mensagem}</strong> {evento.icone}

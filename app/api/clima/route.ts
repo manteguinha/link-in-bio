@@ -33,8 +33,9 @@ export async function GET() {
       local: lines[3] ?? "",
     }
 
-    // Sem dados úteis → null (cliente mostra estado neutro).
-    if (!data.condicao && !data.temperatura) {
+    // Sem temperatura em °C ou com HTML no lugar do texto (erro do wttr.in servido como 200)
+    // → null, e o cliente mostra o estado neutro em vez de lixo.
+    if (!/^[+-]?\d+°C$/.test(data.temperatura) || !data.condicao || /[<>]/.test(text)) {
       return NextResponse.json(null, { status: 200 })
     }
     return NextResponse.json(data)

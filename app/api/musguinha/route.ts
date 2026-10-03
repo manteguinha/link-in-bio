@@ -1,10 +1,15 @@
 import { NextResponse } from "next/server"
-import { MUSGUINHA_ENDPOINT } from "@/lib/constants"
+import { LASTFM_USER, MUSGUINHA_ENDPOINT } from "@/lib/constants"
+import { faixaDoLastfm, imagemSegura, linkSeguro, unixParaIso, urlRecentTracks, type LastfmRecentTracks } from "@/lib/lastfm"
 import { DEFAULT_TRACK } from "@/lib/spotify-default"
 import type { MusguinhaResponse, NowPlaying } from "@/lib/types"
 
 // Cache do route handler (ISR): refresca no servidor a cada 10s.
 export const revalidate = 10
+
+const TIMEOUT_LASTFM_MS = 5000
+// O backend legado demora ~6s (lrclib + Last.fm em série); 8s cobre com margem.
+const TIMEOUT_LEGADO_MS = 8000
 
 function toBool(value: unknown): boolean {
   if (typeof value === "boolean") return value
@@ -12,41 +17,49 @@ function toBool(value: unknown): boolean {
   return false
 }
 
+async function buscarJson<T>(url: string, timeoutMs: number): Promise<T> {
+  const res = await fetch(url, {
+    headers: { Accept: "application/json" },
+    // Alinha o cache do fetch ao do route (10s): a revalidação em background pega música fresca.
+    next: { revalidate: 10 },
+    signal: AbortSignal.timeout(timeoutMs),
+  })
+  if (!res.ok) throw new Error(`${new URL(url).hostname} ${res.status}`)
+  return (await res.json()) as T
+}
+
+/** Caminho preferido: direto no Last.fm (HTTPS, ~200ms), sem depender do servidor próprio. */
+async function doLastfm(apiKey: string): Promise<NowPlaying | null> {
+  const dados = await buscarJson<LastfmRecentTracks>(urlRecentTracks(LASTFM_USER, apiKey), TIMEOUT_LASTFM_MS)
+  if (dados.error) throw new Error(`Last.fm erro ${dados.error}: ${dados.message ?? ""}`)
+  return faixaDoLastfm(dados)
+}
+
+/** Caminho legado: backend próprio (link-in-bio-api), usado quando não há LASTFM_API_KEY na Vercel. */
+async function doBackendLegado(): Promise<NowPlaying | null> {
+  const data = await buscarJson<MusguinhaResponse>(MUSGUINHA_ENDPOINT, TIMEOUT_LEGADO_MS)
+  if (!data?.nome) return null
+  const isPlaying = toBool(data.tocandoAgora)
+  return {
+    isPlaying,
+    nome: data.nome,
+    artista: data.artista ?? "",
+    // Validados: o payload vira href/src na página e o backend legado fala HTTP sem TLS.
+    imagem: imagemSegura(data.imagem),
+    link: linkSeguro(data.link),
+    tocadaEm: isPlaying ? null : unixParaIso(data.dataHora),
+  }
+}
+
 export async function GET() {
   try {
-    // Backend demora ~6s p/ responder (validado empiricamente); 3s abortava e caía
-    // no fallback mesmo com música tocando. 8s cobre com margem de segurança.
-    const controller = new AbortController()
-    const timeout = setTimeout(() => controller.abort(), 8000)
-    let res: Response
-    try {
-      res = await fetch(MUSGUINHA_ENDPOINT, {
-        headers: { Accept: "application/json" },
-        // ISR: a resposta da route é cacheada 10s (revalidate = 10 acima). Este fetch
-        // também alinha o cache em 10s → a revalidação em background pega música fresca.
-        next: { revalidate: 10 },
-        signal: controller.signal,
-      })
-    } finally {
-      clearTimeout(timeout)
-    }
-
-    if (!res.ok) throw new Error(`backend ${res.status}`)
-    const data = (await res.json()) as MusguinhaResponse
-
-    const payload: NowPlaying = {
-      isPlaying: toBool(data.tocandoAgora),
-      nome: data.nome ?? "",
-      artista: data.artista ?? "",
-      imagem: data.imagem ?? DEFAULT_TRACK.imagem,
-      link: data.link ?? DEFAULT_TRACK.link,
-    }
-
+    const apiKey = process.env.LASTFM_API_KEY?.trim()
+    const faixa = apiKey ? await doLastfm(apiKey) : await doBackendLegado()
     // Se vier vazio, degrada para o fallback estático (card nunca quebra).
-    if (!payload.nome) return NextResponse.json(DEFAULT_TRACK)
-    return NextResponse.json(payload)
-  } catch {
-    // Backend offline/timeout: nunca 500 — devolve o fallback.
+    return NextResponse.json(faixa ?? DEFAULT_TRACK)
+  } catch (erro) {
+    // Backend offline/timeout: nunca 500 — devolve o fallback, mas deixa rastro no log da Vercel.
+    console.warn("Música indisponível, usando o fallback:", erro instanceof Error ? erro.message : erro)
     return NextResponse.json(DEFAULT_TRACK, { status: 200 })
   }
 }

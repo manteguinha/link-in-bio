@@ -1,15 +1,21 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Share } from "lucide-react"
 import { SITE } from "@/lib/constants"
 
 export default function ShareButton() {
   const [toast, setToast] = useState(false)
 
+  // Esconde o aviso depois de 2s; o timer é cancelado se o componente sair da tela antes.
+  useEffect(() => {
+    if (!toast) return
+    const id = window.setTimeout(() => setToast(false), 2000)
+    return () => window.clearTimeout(id)
+  }, [toast])
+
   function showToast() {
     setToast(true)
-    window.setTimeout(() => setToast(false), 2000)
   }
 
   async function share() {

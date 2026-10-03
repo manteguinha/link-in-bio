@@ -14,11 +14,12 @@ export default function ThemeSwitcher() {
   useEffect(() => setMounted(true), [])
 
   // Sincroniza <meta theme-color> com o tema resolvido (PWA/standalone iOS e status bar).
+  // O layout gera uma meta por esquema do sistema (media light/dark); as duas precisam
+  // mudar, senão quem está no sistema escuro e escolhe o tema claro fica com a barra escura.
   useEffect(() => {
-    const meta = document.querySelector('meta[name="theme-color"]')
-    if (meta) {
-      meta.setAttribute("content", resolvedTheme === "light" ? "#ffffff" : "#292a2d")
-    }
+    if (!resolvedTheme) return
+    const cor = resolvedTheme === "light" ? "#ffffff" : "#292a2d"
+    document.querySelectorAll('meta[name="theme-color"]').forEach((meta) => meta.setAttribute("content", cor))
   }, [resolvedTheme])
 
   const isLight = mounted && resolvedTheme === "light"

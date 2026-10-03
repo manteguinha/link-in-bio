@@ -1,7 +1,7 @@
 // Service worker manual mínimo, seguindo o guia oficial do Next.js para PWAs.
 // Network-first para navegação, cache-first (stale-while-revalidate) para assets estáticos.
 // Trocar o nome do cache apaga o anterior na ativação (o "mvms-v1" guardava respostas da API).
-const CACHE = "bio-v2"
+const CACHE = "bio-v3"
 const SHELL = ["/"]
 
 self.addEventListener("install", (event) => {
@@ -40,7 +40,8 @@ self.addEventListener("fetch", (event) => {
       fetch(req)
         .then((res) => {
           const copy = res.clone()
-          caches.open(CACHE).then((c) => c.put(req, copy))
+          // waitUntil: o navegador não encerra o worker antes de terminar de gravar.
+          event.waitUntil(caches.open(CACHE).then((c) => c.put(req, copy)))
           return res
         })
         .catch(() => caches.match(req).then((r) => r || caches.match("/")))
@@ -55,7 +56,7 @@ self.addEventListener("fetch", (event) => {
         .then((res) => {
           if (res && res.status === 200 && res.type === "basic") {
             const copy = res.clone()
-            caches.open(CACHE).then((c) => c.put(req, copy))
+            event.waitUntil(caches.open(CACHE).then((c) => c.put(req, copy)))
           }
           return res
         })

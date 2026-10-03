@@ -7,4 +7,5 @@ export const DEFAULT_TRACK: NowPlaying = {
   artista: "AC/DC",
   imagem: "/img/acdc.webp",
   link: "https://www.last.fm/music/AC%2FDC",
+  tocadaEm: null,
 }

@@ -5,9 +5,14 @@ on:
     branches: [main]
   pull_request:
 
+# Um push novo no mesmo PR cancela a execução anterior.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
-    name: Lint, typecheck e build
+    name: Lint, typecheck, testes e build
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:

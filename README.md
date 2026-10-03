@@ -28,9 +28,17 @@ O CI roda lint, typecheck, testes e build em todo PR.
 - **Música padrão do card do Spotify:** `lib/spotify-default.ts` (aparece quando o backend da música está fora do ar).
 - **Cores e fontes:** tokens em `app/globals.css` (tema claro e escuro), a mesma paleta do mvms.dev.
 
+## Variáveis de ambiente
+
+| Variável | Para quê |
+| --- | --- |
+| `LASTFM_API_KEY` | Chave da API do Last.fm ([criar](https://www.last.fm/api/account/create)). Com ela a música vem direto do Last.fm, por HTTPS, em ~200 ms. |
+
+Localmente, copie `.env.example` para `.env.local`.
+
 ## De onde vêm os dados
 
 - **Clima:** `/api/clima` busca no [wttr.in](https://wttr.in) a cada 10 minutos. Se ele não responder, a linha mostra só "Goiás, Brasil".
-- **Música:** `/api/musguinha` busca no backend próprio a cada 10 segundos. Se ele não responder, o card mostra a música padrão.
+- **Música:** `/api/musguinha` consulta o [Last.fm](https://www.last.fm/api) a cada 10 segundos e mostra o que está tocando (ou a última tocada, com "há 5 minutos"). Se ele não responder, o card mostra a música padrão. Precisa da variável `LASTFM_API_KEY` na Vercel (veja `.env.example`); sem ela, a página cai no backend antigo ([link-in-bio-api](https://github.com/manteguinha/link-in-bio-api)).
 
 O service worker (`public/sw.js`) guarda a página e os arquivos estáticos para abrir offline, mas nunca as respostas da API, para o clima e a música não aparecerem atrasados.

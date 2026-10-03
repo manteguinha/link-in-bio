@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next"
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
+    id: "/",
     name: "Marcos Vinicius | MVMS",
     short_name: "MVMS",
     description: "Página de links do Marcos Vinicius",

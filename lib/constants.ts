@@ -14,6 +14,7 @@ export const SITE = {
   author: "Marcos Vinicius",
   url: "https://bio.mvms.dev",
   siteName: "MVMS",
+  twitter: "@manteguinhaaa",
 } as const
 
 export const LINK_PRINCIPAL = {
@@ -34,7 +35,10 @@ export const REDES_SOCIAIS: RedeSocial[] = [
   { label: "X", href: "https://x.com/manteguinhaaa", icon: "x" },
 ] as const
 
-// Backend da música (HTTP — chamado server-side na route handler).
+// Usuário do Last.fm cuja música aparece no card. Com LASTFM_API_KEY definida (Vercel), a route
+// /api/musguinha consulta o Last.fm direto; sem ela, usa o backend legado abaixo.
+export const LASTFM_USER = "manteguinhaa"
+// Backend legado da música (link-in-bio-api, HTTP sem TLS — chamado só server-side).
 export const MUSGUINHA_ENDPOINT = "http://144.22.176.161:3987/musguinha"
 // wttr.in em PORTUGUÊS (subdomínio pt.) — traduz a condição ("Clear"→"Limpo") e mantém o acento de "Goiás".
 // 4 linhas: emoji(%c), temperatura(%t), condição(%C), local(%l).
